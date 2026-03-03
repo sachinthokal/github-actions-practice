@@ -17,3 +17,19 @@ jobs:
       # STEP 2: A standard shell command
       - name: Print greeting
         run: echo "Hello from GitHub Actions!"
+      
+      # STEP 3: Print current date and time
+      - name: Print current date and time
+        run: date()
+      
+      # STEP 4: Print name of the branch
+      - name: Print branch name
+        run: echo $GITHUB_REF
+      
+      # STEP 5: List the files in the repo
+      - name: List the files in repo
+        run: ls -la
+
+      # STEP 6: Print the runner's os
+      - name: Print the runner's os
+        run: echo $GITHUB_OS
