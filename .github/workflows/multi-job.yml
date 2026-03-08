@@ -48,3 +48,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "The date from job1 was ${{ needs.job1.outputs.build_date }}"
+    
+      - name: Only on Main
+        if: github.ref == 'refs/heads/main'
+        run: echo "Deploying to production..."
+
+      - name: Critical Step
+        id: critical
+        continue-on-error: true # Job continues even if this fails
+        run: exit 1
+
+      - name: Fallback
+        if: failure() && steps.critical.outcome == 'failure'
+        run: echo "The critical step failed, but I am handling it."
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Linting code..."
+
+  test2:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Testing code..."
+
+  summary:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report
+        run: |
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Message: ${{ github.event.head_commit.message }}"
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            echo "Status: This is a Production push."
+          else
+            echo "Status: This is a Feature branch push."
+          fi
