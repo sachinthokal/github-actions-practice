@@ -12,6 +12,9 @@ jobs:
           python-version: '3.11'
       - name: Install Dependencies
         run: pip install pytest  # or whatever your script needs
+      - name: Create File
+        run: echo "print('Hello, World!')" > my_script.py
+
       - name: Run Script
         run: python my_script.py
       
