@@ -18,7 +18,6 @@ jobs:
           echo "Ver: $VERSION"
           echo "Commit: ${{ github.sha }}"
           echo "Actor: ${{ github.actor }}"
-
   build:
     runs-on: self-hosted
     steps:
@@ -36,3 +35,16 @@ jobs:
     steps:
         - name: Print Job name
           run: echo "Deploying the application"
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      build_date: ${{ steps.get_date.outputs.date }}
+    steps:
+      - id: get_date
+        run: echo "date=$(date)" >> $GITHUB_OUTPUT
+
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The date from job1 was ${{ needs.job1.outputs.build_date }}"
