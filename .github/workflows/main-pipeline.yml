@@ -21,7 +21,7 @@ jobs:
     needs: docker
     runs-on: ubuntu-latest
     steps:
-      - name: Run Trivy vulnerability scanner
+      - name: Run Trivy vulnerability scanner on
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: '${{ vars.DOCKER_USERNAME }}/fastapi-capstone:latest'
