@@ -20,15 +20,17 @@ jobs:
   security-scan:
     needs: docker
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write # Required for SARIF upload (Brownie Points)
     steps:
-      - name: Run Trivy vulnerability scanner on
+      - name: Scan Docker Image
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: '${{ vars.DOCKER_USERNAME }}/fastapi-capstone:latest'
           format: 'table'
-          exit-code: '1'
-          severity: 'CRITICAL'
-
+          exit-code: '1' # This fails the pipeline if issues are found
+          severity: 'CRITICAL,HIGH'
   deploy:
     needs: [docker, security-scan]
     runs-on: ubuntu-latest

@@ -3,12 +3,26 @@ on:
   pull_request:
     branches: [ main ]
     types: [ opened, synchronize ]
+    
+permissions:
+  contents: read      # Minimum needed to checkout code
+  pull-requests: write # Needed for your PR Comment job
 
 jobs:
   build-test:
     uses: ./.github/workflows/reusable-build-test.yml
     with:
       run_tests: true
+
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: critical
 
   pr-comment:
     needs: build-test
