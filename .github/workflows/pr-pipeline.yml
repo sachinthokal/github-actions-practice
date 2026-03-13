@@ -1,0 +1,26 @@
+name: PR Pipeline
+on:
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize ]
+
+jobs:
+  build-test:
+    uses: ./.github/workflows/reusable-build-test.yml
+    with:
+      run_tests: true
+
+  pr-comment:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `✅ PR checks passed for branch: **${context.payload.pull_request.head.ref}**`
+            })
