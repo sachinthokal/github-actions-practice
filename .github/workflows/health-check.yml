@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Run App
         run: |
-          docker run -d -p 8000:8000 --name capstone-app ${{ vars.DOCKER_USERNAME }}/fastapi-capstone:latest
+          docker run -d -p 8000:8000 --name capstone-app ${{ secrets.DOCKER_USERNAME }}/fastapi-capstone:latest
           sleep 5
       - name: Curl Check
         run: |

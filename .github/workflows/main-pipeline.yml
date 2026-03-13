@@ -24,7 +24,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: '${{ vars.DOCKER_USERNAME }}/fastapi-capstone:latest'
+          image-ref: '${{ secrets.DOCKER_USERNAME }}/fastapi-capstone:latest'
           format: 'table'
           exit-code: '1'
           severity: 'CRITICAL'
