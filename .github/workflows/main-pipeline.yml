@@ -15,7 +15,7 @@ jobs:
       tag: sha-${{ github.sha }}
     secrets:
       docker_username: ${{ secrets.DOCKER_USERNAME }}
-      docker_token: ${{ secrets.DOCKER_PASSWORD }}
+      docker_token: ${{ secrets.DOCKER_TOKEN }}
 
   security-scan:
     needs: docker
